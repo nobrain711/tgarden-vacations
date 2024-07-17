@@ -28,7 +28,7 @@ const routes: FuseRoutesType = [
   ),
   {
     path: "/",
-    element: <Navigate to="/example" />,
+    element: <Navigate to="/employee/vacations" />,
     auth: settingsConfig.defaultAuth,
   },
   {
