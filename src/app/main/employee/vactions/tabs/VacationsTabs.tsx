@@ -14,7 +14,7 @@ export const VacationsTabs = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider", padding: "0 24px" }}>
         <Tabs
           value={tabsNumber}
           onChange={handlerTabsPage}
@@ -25,7 +25,9 @@ export const VacationsTabs = () => {
           <Tab value={1} label="休暇履歴" />
         </Tabs>
       </Box>
-      {tabsNumber === 0 ? <VacationsCount />: <VacationsHistory />}
+      <div className="p-24">
+        {tabsNumber === 0 ? <VacationsCount /> : <VacationsHistory />}
+      </div>
     </Box>
   );
 };
