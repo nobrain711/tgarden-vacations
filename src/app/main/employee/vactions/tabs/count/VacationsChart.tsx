@@ -1,6 +1,7 @@
 import { ApexOptions } from "apexcharts";
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import Typography from "@mui/material/Typography";
 
 export const VacationsChart = () => {
   // totalVacations, usedVacations는 임시 데이터 입니다.
@@ -51,26 +52,34 @@ export const VacationsChart = () => {
   const series = [totalVacations - usedVacations, usedVacations];
 
   return (
-    <div className="w-400">
-      {/* 차트 제목 */}
-      <h2 className="text-20 grid justify-items-start">有給休暇（日数）</h2>
-      {/* 차트 */}
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="donut"
-        height={350}
-      />
-      {/* 차트 정보 */}
-      <div className="text-center mt-6">
-        <span className="text-28 text-[#1E90FF]">
-          {usedVacations.toFixed(1)}
-        </span>
-        <span> / </span>
-        <span className="text-24 text-[#A9A9A9] ">
-          {totalVacations.toFixed(1)}
-        </span>
+    <>
+      <div className="flex items-start justify-between">
+        <Typography className="text-lg font-medium tracking-tight leading-6 truncate">
+          有給休暇（日数）
+        </Typography>
       </div>
-    </div>
+      <div className="flex flex-col flex-auto">
+        <ReactApexChart
+          className="flex flex-auto items-center justify-center w-full h-full"
+          options={options}
+          series={series}
+          type="donut"
+          height={200}
+        />
+      </div>
+      <div className="mt-8">
+        <div className="-my-3 divide-y">
+          <div className="flex flex-row justify-center items-center">
+            <Typography className="font-bold text-6xl text-blue-400 mx-10">
+              {usedVacations}
+            </Typography>
+            <Typography className="font-bold text-3xl text-gray-400">
+              {" "}
+              / {totalVacations}
+            </Typography>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
