@@ -1,8 +1,7 @@
-import React, { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import { Box, Tab } from "@mui/material";
 import { VacationsCount } from "./count/VacationsCount";
-import { TabPanel } from "@mui/base";
 import { VacationsHistory } from "./history/VacationsHistory";
 
 export const VacationsTabs = () => {
