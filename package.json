@@ -17,7 +17,11 @@
         "@mui/x-date-pickers": "6.19.0",
         "@popperjs/core": "2.11.8",
         "@reduxjs/toolkit": "2.2.1",
+<<<<<<< HEAD
         "apexcharts": "^3.45.1",
+=======
+        "apexcharts": "3.45.1",
+>>>>>>> 4f1a0e1dea47a51d7ae21994d61148e7bb8be825
         "autosuggest-highlight": "3.3.4",
         "aws-amplify": "^6.0.25",
         "axios": "1.6.5",
@@ -141,6 +145,7 @@
         "postcss-loader": "7.3.4",
         "prettier": "3.2.2",
         "promise": "8.3.0",
+        "react-apexcharts": "^1.4.1",
         "react-refresh": "0.14.0",
         "s": "1.0.0",
         "source-map-explorer": "2.5.3",
