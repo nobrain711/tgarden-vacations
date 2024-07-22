@@ -1,26 +1,17 @@
 import Typography from "@mui/material/Typography";
 import { VacationsChart } from "./VacationsChart";
+import { AppDispatch } from "app/store/store";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "app/store/store";
+import { addUsed, selectVacations } from "../../store/VacationsSlice";
 
 export const VacationsCount = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const vacations = useSelector((state: RootState) => selectVacations(state));
+
+  console.log(vacations);
   return (
-    // <div className="p-48">
-    //   <div className="grid grid-flow-col justify-stretch">
-    //     <div className="p-16">
-    //       <div className="grid justify-items-center">
-    //         <VacationsChart />
-    //       </div>
-    //     </div>
-    //     <div className="p-16">
-    //       <div className="grid justify-items-start">
-    //         <div className="flex">
-    //           <div className="flex-1">
-    //           </div>
-    //           <div className="">end</div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="flex flex-auto w-full max-w-screen-xl mx-auto p-6 md:p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full mt-6 md:mt-8">
         <div className="flex flex-col flex-auto shadow rounded-2xl overflow-hidden p-6">
