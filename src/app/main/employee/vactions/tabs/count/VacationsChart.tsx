@@ -1,12 +1,20 @@
 import { ApexOptions } from "apexcharts";
-import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import Typography from "@mui/material/Typography";
+import { useSelector } from "react-redux";
+import { RootState } from "app/store/store";
+import { selectVacations } from "../../store/VacationsSlice";
 
 export const VacationsChart = () => {
+  // redux롷 부터 휴가 정보 데이터 반환
+  const vacations = useSelector((state: RootState) => selectVacations(state));
+  const totalVacations = vacations.total;
+  const usedVacations = vacations.used;
+
   // totalVacations, usedVacations는 임시 데이터 입니다.
-  const totalVacations = 27.0;
-  const [usedVacations, setUsedVacations] = useState<number>(1.0);
+  // const totalVacations = 27.0;
+  // const [usedVacations, setUsedVacations] = useState<number>(1.0);
+  
   // 데이터 라벨
   const labels = ["有給休暇", "残日"];
 

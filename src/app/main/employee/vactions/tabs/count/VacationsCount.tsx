@@ -1,16 +1,14 @@
 import Typography from "@mui/material/Typography";
 import { VacationsChart } from "./VacationsChart";
-import { AppDispatch } from "app/store/store";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { RootState } from "app/store/store";
-import { addUsed, selectVacations } from "../../store/VacationsSlice";
+import IconButton from "@mui/material/IconButton";
+import { useAppDispatch } from "app/store/hooks";
+import { openDialog } from "@fuse/core/FuseDialog/fuseDialogSlice";
+import FuseSvgIcon from "@fuse/core/FuseSvgIcon";
+import { VacationsDialog } from "./dialog/VacationsDialog";
 
 export const VacationsCount = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const vacations = useSelector((state: RootState) => selectVacations(state));
+  const dispatch = useAppDispatch();
 
-  console.log(vacations);
   return (
     <div className="flex flex-auto w-full max-w-screen-xl mx-auto p-6 md:p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full mt-6 md:mt-8">
@@ -37,7 +35,18 @@ export const VacationsCount = () => {
                 4년차 14일 중 0.0일(유호기간: 2026/01/31)
               </Typography>
             </div>
-            <div>buttom</div>
+            <IconButton
+              aria-label=""
+              onClick={() =>
+                dispatch(
+                  openDialog({
+                    children: <VacationsDialog />,
+                  })
+                )
+              }
+            >
+              <FuseSvgIcon>heroicons-outline:question-mark-circle</FuseSvgIcon>
+            </IconButton>
           </div>
         </div>
       </div>
