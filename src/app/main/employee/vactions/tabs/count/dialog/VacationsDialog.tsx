@@ -2,7 +2,7 @@ import {
   closeDialog,
   selectFuseDialogState,
 } from "@fuse/core/FuseDialog/fuseDialogSlice";
-import { DialogActions, DialogContent, Button, Dialog } from "@mui/material";
+import { DialogActions, DialogContent, Button, Dialog, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { RootState } from "app/store/store";
@@ -11,7 +11,9 @@ import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const fetchMarkdown = async () => {
-  const respone = await fetch("src/app/main/employee/vactions/tabs/count/dialog/VacationsInfo.md");
+  const respone = await fetch(
+    "src/app/main/employee/vactions/tabs/count/dialog/VacationsInfo.md"
+  );
   const text = await respone.text();
   return text;
 };
@@ -38,7 +40,7 @@ export const VacationsDialog = () => {
     <Fragment>
       <Dialog open={isOpen} scroll={"paper"} maxWidth="lg" fullWidth={true}>
         <DialogContent>
-          <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />
+          <Typography>유급휴가제도개요 (NEW)</Typography>
         </DialogContent>
         <DialogActions>
           <Button
