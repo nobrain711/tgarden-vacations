@@ -19,7 +19,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   return (
     <div className="flex justify-between w-full mb-20 px-4">
       <button
-        className="px-9 py-7 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="px-9 py-7 bg-blue-gray-800 text-white rounded hover:bg-blue-gray-900"
         onClick={onPreviousMonth}
       >
         <FuseSvgIcon className="text-48" size={20} color="inherit">
@@ -31,13 +31,13 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
       </h2>
       <div className="flex">
         <button
-          className="px-9 py-7 font-semibold bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="px-9 py-7 font-semibold bg-blue-gray-800 text-white rounded hover:bg-blue-gray-900"
           onClick={onToday}
         >
           今月
         </button>
         <button
-          className="px-9 py-7 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="px-9 py-7 bg-blue-gray-800 text-white rounded hover:bg-blue-gray-900"
           onClick={onNextMonth}
         >
           <FuseSvgIcon className="text-48" size={20} color="inherit">

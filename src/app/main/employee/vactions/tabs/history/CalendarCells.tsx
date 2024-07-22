@@ -43,7 +43,7 @@ const CalendarCells: React.FC<{
     // 스타일 조건 설정
     let cellStyle = "py-28 px-4 border border-gray-200 relative";
     if (isToday) {
-      cellStyle += " bg-yellow-200";
+      cellStyle += " bg-yellow-50";
     } else if (isWeekend) {
       cellStyle += " bg-gray-100";
       if (new Date(year, month - 1, day).getDay() === 0) {
@@ -62,11 +62,11 @@ const CalendarCells: React.FC<{
   };
 
   return (
-    <div className="grid grid-cols-7 w-full h-full">
+    <div className="grid grid-cols-7 w-full h-full ">
       {days.map((day, index) => (
         <div
           key={index}
-          className="text-center font-bold bg-blue-500 text-white py-2 border border-white"
+          className="text-center font-bold bg-indigo-700 text-white py-2 border border-white"
         >
           {day}
         </div>

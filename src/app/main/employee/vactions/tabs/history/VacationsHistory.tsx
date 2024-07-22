@@ -1,53 +1,61 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import Calendar from "./Calendar";
 import List from "./List";
 
 export const VacationsHistory = () => {
   const [alignment, setAlignment] = useState("calendar");
 
-  const handleAlignment = (event, newAlignment) => {
-    if (newAlignment !== null) {
-      setAlignment(newAlignment);
-    }
-  };
-
   return (
-    <div className="flex flex-col items-center mt-6 mb-6">
-      <ToggleButtonGroup
-        value={alignment}
-        exclusive
-        onChange={handleAlignment}
-        aria-label="text alignment"
-        sx={{
-          borderRadius: "50px",
-          boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.2)",
-          overflow: "hidden",
-        }}
-      >
-        <ToggleButton
-          value="calendar"
-          aria-label="calendar"
-          sx={{ borderRadius: "50px 0 0 50px" }}
+    <>
+      <div className="flex flex-col items-center mt-6 mb-32">
+        <Box
+          sx={{
+            display: "flex",
+            borderRadius: "25px",
+            backgroundColor: "#E2E8F0",
+            padding: "2px",
+            width: "100%", // 전체 너비를 100%로 설정
+            maxWidth: "210px", // 최대 너비 설정 (필요에 따라 조정)
+          }}
         >
-          カレンダー
-        </ToggleButton>
-        <ToggleButton
-          value="list"
-          aria-label="list"
-          sx={{ borderRadius: "0 50px 50px 0" }}
-        >
-          リスト
-        </ToggleButton>
-      </ToggleButtonGroup>
+          <Button
+            onClick={() => setAlignment("calendar")}
+            sx={{
+              flex: 1,
+              borderRadius: "25px",
+              backgroundColor: alignment === "calendar" ? "#ffffff" : "#E2E8F0",
+              color: "#000000",
+              fontSize: "18px", // 글씨 크기 조정
+              padding: "20px", // 버튼 내부 여백 조정
+              "&:hover": {
+                backgroundColor:
+                  alignment === "calendar" ? "#ffffff" : "#DFE6EE",
+              },
+            }}
+          >
+            <Typography variant="button">カレンダー</Typography>
+          </Button>
+          <Button
+            onClick={() => setAlignment("list")}
+            sx={{
+              flex: 1,
+              borderRadius: "25px",
+              backgroundColor: alignment === "list" ? "#ffffff" : "#E2E8F0",
+              color: "#000000",
+              fontSize: "18px", // 글씨 크기 조정
+              padding: "5px", // 버튼 내부 여백 조정
+              "&:hover": {
+                backgroundColor: alignment === "list" ? "#ffffff" : "#DFE6EE",
+              },
+            }}
+          >
+            <Typography variant="button">リスト</Typography>
+          </Button>
+        </Box>
+      </div>
       {alignment === "calendar" && <Calendar />}
       {alignment === "list" && <List />}
-    </div>
+    </>
   );
 };
