@@ -45,7 +45,7 @@ function Vacations() {
 			rightSidebarContent={<VacationSidebarContent />}
 			rightSidebarOpen={rightSideBarOpen}
 			rightSidebarOnClose={() => setRightSideBarOpen(false)}
-			rightSidebarWidth={640}
+			rightSidebarWidth={640} // 팀장님이 수정하기로 함
 			rightSidebarVariant="temporary"
 		/>
 	);
