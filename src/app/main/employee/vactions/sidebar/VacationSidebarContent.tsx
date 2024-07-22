@@ -1,5 +1,6 @@
-import Button from '@mui/material/Button'
-// tailwind의 경우에는 style에 정의 하는게 아니라 className에 정의 하면 됩니다.
+import { useState } from 'react';
+import Button from '@mui/material/Button';
+
 export function VacationSidebarContent() {
     return (
         <div style={{ marginTop: '0px' }}>
