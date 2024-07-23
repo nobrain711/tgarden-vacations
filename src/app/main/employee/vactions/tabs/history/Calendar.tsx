@@ -3,9 +3,21 @@ import CalendarHeader from "./CalendarHeader";
 import CalendarCells from "./CalendarCells";
 
 const listData = [
-  { id: 1, date: "2024/07/18", type: "유급휴가", hours: "8h", remarks: "zxcv" },
-  { id: 2, date: "2024/07/19", type: "반차", hours: "4h", remarks: "abc" },
-  { id: 3, date: "2024/07/20", type: "본사출근", hours: "8h", remarks: "def" },
+  {
+    id: 1,
+    date: "2024/07/18",
+    type: "有給休暇 (全休)",
+    hours: "8h",
+    remarks: "zxcv",
+  },
+  {
+    id: 2,
+    date: "2024/07/19",
+    type: "有給休暇 (半休)",
+    hours: "4h",
+    remarks: "abc",
+  },
+  { id: 3, date: "2024/07/20", type: "本社出勤", hours: "8h", remarks: "def" },
 ];
 
 const Calendar: React.FC = () => {

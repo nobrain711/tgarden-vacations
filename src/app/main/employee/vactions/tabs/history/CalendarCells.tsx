@@ -60,11 +60,11 @@ const CalendarCells: React.FC<{
   // 라벨 색상 설정
   const getLabelStyle = (type?: string): string => {
     switch (type) {
-      case "유급휴가":
+      case "有給休暇 (全休)":
         return "bg-blue-800";
-      case "반차":
+      case "有給休暇 (半休)":
         return "bg-orange-800";
-      case "본사출근":
+      case "本社出勤":
         return "bg-green-800";
       default:
         return "bg-gray-200 text-gray-800";
