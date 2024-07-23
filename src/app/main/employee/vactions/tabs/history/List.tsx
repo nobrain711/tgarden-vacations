@@ -1,35 +1,44 @@
+import React from "react";
+
+// 더미 데이터 생성
+const dummyData = [
+  { id: 1, date: "2024/07/18", type: "유급휴가", hours: "8h", remarks: "zxcv" },
+  { id: 2, date: "2024/07/19", type: "반차", hours: "4h", remarks: "abc" },
+  { id: 3, date: "2024/07/20", type: "본사출근", hours: "8h", remarks: "def" },
+];
+
 export default function List() {
   return (
     <>
-      <div className="flex-1 flex flex-col flex-wrap w-full max-w-screen-xl mx-auto ng-star-inserted">
+      <div className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto">
         <div className="flex-1 relative">
-          <div className=" ng-star-inserted">
-            <div className="h-full">
-              <ul className="list-inside">
-                <li className="ng-star-inserted">
-                  <div className="border-gray-500 bg-blue-200 border-t-2">
-                    2023/02/01 ~ 2024/01/31 (1.0/14.0使用済み)
-                  </div>
-                  <ol>
-                    <li className="flex flex-wrap justify-start items-center border-gray-500 border-y-2 ng-star-inserted">
-                      <span className="inline-block align-middle w-36 text-right mr-10">
-                        1
-                      </span>
-                      <span className="inline-block align-middle w-80">
-                        2024/07/11
-                      </span>
-                      <span className="inline-block align-middle w-30 truncate overflow-hidden">
-                        有給休暇（全休）
-                      </span>
-                      <span className="inline-block align-middle w-40">8h</span>
-                      <span className="align-middle truncate overflow-hidden flex-1">
-                        zcvz
-                      </span>
-                    </li>
-                  </ol>
-                </li>
-              </ul>
-            </div>
+          <div className="h-full">
+            <ul className="list-inside">
+              <li>
+                <div className="border-gray-500 bg-blue-200 border-t-2 py-2 px-4">
+                  2023/02/01 ~ 2024/01/31 (1.0/14.0使用済み)
+                </div>
+                <div className="grid grid-cols-[3rem,6rem,10rem,4rem,1fr] gap-4 border-gray-500 border-y-2">
+                  {dummyData.map((item) => (
+                    <React.Fragment key={item.id}>
+                      <div className="flex items-center justify-center">
+                        {item.id}
+                      </div>
+                      <div className="flex items-center justify-center">
+                        {item.date}
+                      </div>
+                      <div className="flex items-center justify-center">
+                        {item.type}
+                      </div>
+                      <div className="flex items-center justify-center">
+                        {item.hours}
+                      </div>
+                      <div className="flex items-center">{item.remarks}</div>
+                    </React.Fragment>
+                  ))}
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

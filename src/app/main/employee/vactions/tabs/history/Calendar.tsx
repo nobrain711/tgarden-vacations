@@ -1,8 +1,12 @@
-// Calendar.tsx
-
 import React, { useState } from "react";
 import CalendarHeader from "./CalendarHeader";
 import CalendarCells from "./CalendarCells";
+// 기존 List에서 사용하는 더미 데이터
+const listData = [
+  { id: 1, date: "2024/07/18", type: "유급휴가", hours: "8h", remarks: "zxcv" },
+  { id: 2, date: "2024/07/19", type: "반차", hours: "4h", remarks: "abc" },
+  { id: 3, date: "2024/07/20", type: "본사출근", hours: "8h", remarks: "def" },
+];
 
 const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -69,10 +73,14 @@ const Calendar: React.FC = () => {
 
   // 현재 달의 날짜 추가
   for (let i = 1; i <= daysInMonth; i++) {
+    const date = `${year}/${String(month + 1).padStart(2, "0")}/${String(i).padStart(2, "0")}`;
+    const label = listData.find((item) => item.date === date)?.type || "";
+
     cellsData.push({
       day: i,
       month: month + 1,
       year: year,
+      label: label, // 라벨 추가
     });
   }
 
