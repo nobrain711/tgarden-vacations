@@ -8,6 +8,7 @@ interface CellProps {
   isWeekend: boolean;
   isToday: boolean;
   label?: string; // 추가된 라벨 속성
+  type?: string;
 }
 
 const CalendarCells: React.FC<{
@@ -56,6 +57,20 @@ const CalendarCells: React.FC<{
     return cellStyle;
   };
 
+  // 라벨 색상 설정
+  const getLabelStyle = (type?: string): string => {
+    switch (type) {
+      case "유급휴가":
+        return "bg-blue-800";
+      case "반차":
+        return "bg-orange-800";
+      case "본사출근":
+        return "bg-green-800";
+      default:
+        return "bg-gray-200 text-gray-800";
+    }
+  };
+
   return (
     <div className="grid grid-cols-7 w-full h-full">
       {days.map((day, index) => (
@@ -73,7 +88,9 @@ const CalendarCells: React.FC<{
         >
           <span className="absolute top-1 right-1">{cell.day}</span>
           {cell.label && (
-            <div className="absolute bottom-1 left-1 text-xs bg-orange-800 p-1 rounded w-full text-white">
+            <div
+              className={`absolute bottom-1 left-1 text-xs ${getLabelStyle(cell.type)} p-1 rounded w-full text-white`}
+            >
               {cell.label}
             </div>
           )}
