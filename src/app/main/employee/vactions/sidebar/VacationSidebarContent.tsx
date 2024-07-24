@@ -7,6 +7,7 @@ export const VacationSidebarContent: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>("有給休暇（全休）"); // 選択されたオプション
   const [time, setTime] = useState<number>(8); // 時間
   const [headerText, setHeaderText] = useState<string>('休暇申請（全休）'); // // ヘッダーテキスト
+  const [isInputFocused, setIsInputFocused] = useState<boolean>(false); // 入力フィールドにフォーカスがあるかどうかを示すステータス変数です。
 
   // 選択したオプションが変更されるたびに実行される効果
   useEffect(() => {
@@ -39,6 +40,22 @@ export const VacationSidebarContent: React.FC = () => {
     handleClose(); // メニューを閉じる
   };
 
+  // 入力フィールドにフォーカスが入るときに実行される関数です。
+  const handleInputFocus = () => {
+    setIsInputFocused(true); // isInputFocused状態をtrueに設定し、入力フィールドにフォーカスが入ったことを示します。
+  };
+
+  // 入力フィールドからフォーカスが外れたときに実行される関数です。
+  const handleInputBlur = () => {
+    setIsInputFocused(false); // isInputFocused状態をfalseに設定し、入力フィールドからフォーカスが外れたことを示します。
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // 基本提出動作防止
+    alert("페이지가 제출되었습니다!"); // ページ提出メッセージの表示または提出ロジックの追加
+    // 追加でページ切り替えなどの動作が可能
+  };
+
   return (
     <div style={{ width: '480px' }}>
       {/* ヘッダーセクション */}
@@ -49,7 +66,7 @@ export const VacationSidebarContent: React.FC = () => {
       {/* 日付 入力 セクション */}
       <div className="p-48 -mt-32">
         <Typography variant="body1" className="text-base text-black font-bold">日付*</Typography>
-        <div className="mt-2 flex items-center border border-gray-400 rounded-md p-6 h-48">
+        <div className={`mt-2 flex items-center border ${isInputFocused ? 'border-blue-500' : 'border-gray-400'} rounded-md p-6 h-48`}>
           {/* カレンダーアイコン */}
           <svg
             xmlns="http://www.w3.org/2000/svg" // SVGネームスペース
@@ -75,6 +92,8 @@ export const VacationSidebarContent: React.FC = () => {
             type="text" // テキスト入力タイプ
             className="w-full outline-none px-4 py-8"
             placeholder="" // プレースホルダーテキスト
+            onFocus={handleInputFocus} // 入力フィールドにフォーカスが入るとき（handle Input Focus 関数が呼び出されるとき）実行されます。
+            onBlur={handleInputBlur} // 入力フィールドからフォーカスが外れるとき（handle Input Blur関数が呼び出されるとき）実行されます。
           />
         </div>
         <Typography variant="body2" className="text-xs font-bold text-gray-500 mt-4">YYYY-MM-DD</Typography>
@@ -138,8 +157,8 @@ export const VacationSidebarContent: React.FC = () => {
       {/* 申し込みボタン */}
       <div className="flex justify-center">
         <Button
-          className="text-base bg-gray-200 text-gray-600 font-bold rounded-full w-full mx-44 -mt-16" // ボタンスタイルの設定
-          onClick={() => alert("Button clicked!")} // クリック時に警告ウィンドウを表示する関数呼び出し
+          type="submit" // ボタンがフォームを提出するように設定
+          className="text-base bg-gray-200 text-gray-600 font-bold rounded-full w-full mx-44 -mt-16"
         >
           申請 {/* 「申請」テキスト */}
         </Button>
