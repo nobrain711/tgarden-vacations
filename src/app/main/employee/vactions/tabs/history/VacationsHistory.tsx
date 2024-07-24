@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import Calendar from "./Calendar";
 import List from "./List";
-
+// carlendarとlistを見るページ
 export const VacationsHistory = () => {
   const [alignment, setAlignment] = useState("calendar");
 
@@ -15,8 +15,8 @@ export const VacationsHistory = () => {
             borderRadius: "25px",
             backgroundColor: "#E2E8F0",
             padding: "2px",
-            width: "100%", // 전체 너비를 100%로 설정
-            maxWidth: "210px", // 최대 너비 설정 (필요에 따라 조정)
+            width: "100%",
+            maxWidth: "210px",
           }}
         >
           <Button
@@ -26,8 +26,8 @@ export const VacationsHistory = () => {
               borderRadius: "25px",
               backgroundColor: alignment === "calendar" ? "#ffffff" : "#E2E8F0",
               color: "#000000",
-              fontSize: "18px", // 글씨 크기 조정
-              padding: "20px", // 버튼 내부 여백 조정
+              fontSize: "18px",
+              padding: "20px",
               "&:hover": {
                 backgroundColor:
                   alignment === "calendar" ? "#ffffff" : "#DFE6EE",
@@ -43,8 +43,8 @@ export const VacationsHistory = () => {
               borderRadius: "25px",
               backgroundColor: alignment === "list" ? "#ffffff" : "#E2E8F0",
               color: "#000000",
-              fontSize: "18px", // 글씨 크기 조정
-              padding: "5px", // 버튼 내부 여백 조정
+              fontSize: "18px",
+              padding: "5px",
               "&:hover": {
                 backgroundColor: alignment === "list" ? "#ffffff" : "#DFE6EE",
               },

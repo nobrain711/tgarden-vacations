@@ -1,16 +1,16 @@
 import React from "react";
 
-// CellProps에 라벨 추가
 interface CellProps {
   day: number;
   month: number;
   year: number;
   isWeekend: boolean;
   isToday: boolean;
-  label?: string; // 추가된 라벨 속성
+  label?: string;
   type?: string;
 }
 
+//カレンダーの日、休暇を見る
 const CalendarCells: React.FC<{
   days: string[];
   weekends: number[];
@@ -18,7 +18,7 @@ const CalendarCells: React.FC<{
   todayMonth: number;
   todayYear: number;
   cellsData: CellProps[];
-  selectedMonth: number; // 선택된 달
+  selectedMonth: number;
 }> = ({
   days,
   weekends,
@@ -57,7 +57,6 @@ const CalendarCells: React.FC<{
     return cellStyle;
   };
 
-  // 라벨 색상 설정
   const getLabelStyle = (type?: string): string => {
     switch (type) {
       case "有給休暇 (全休)":

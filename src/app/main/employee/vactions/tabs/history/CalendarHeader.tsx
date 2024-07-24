@@ -8,7 +8,7 @@ interface CalendarHeaderProps {
   onNextMonth: () => void;
   onToday: () => void;
 }
-
+//カレンダーのheader(曜日、button)
 const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   year,
   month,

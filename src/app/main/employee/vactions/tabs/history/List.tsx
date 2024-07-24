@@ -1,6 +1,5 @@
 import React from "react";
 
-// 더미 데이터 생성
 const dummyData = [
   {
     id: 1,
@@ -18,7 +17,7 @@ const dummyData = [
   },
   { id: 3, date: "2024/07/20", type: "本社出勤", hours: "8h", remarks: "def" },
 ];
-
+//list : リストpage
 export default function List() {
   return (
     <>
@@ -31,23 +30,27 @@ export default function List() {
                   2023/02/01 ~ 2024/01/31 (1.0/14.0使用済み)
                 </div>
                 <div className="grid grid-cols-[3rem,7rem,10rem,4rem,1fr] gap-4 border-gray-500 border-y-2">
-                  {dummyData.map((item) => (
-                    <React.Fragment key={item.id}>
-                      <div className="flex items-center justify-center">
-                        {item.id}
-                      </div>
-                      <div className="flex items-center justify-center">
-                        {item.date}
-                      </div>
-                      <div className="flex items-center justify-center">
-                        {item.type}
-                      </div>
-                      <div className="flex items-center justify-center">
-                        {item.hours}
-                      </div>
-                      <div className="flex items-center">{item.remarks}</div>
-                    </React.Fragment>
-                  ))}
+                  {dummyData.map(
+                    (
+                      item //縦並び (react.fragment)
+                    ) => (
+                      <React.Fragment key={item.id}>
+                        <div className="flex items-center justify-center">
+                          {item.id}
+                        </div>
+                        <div className="flex items-center justify-center">
+                          {item.date}
+                        </div>
+                        <div className="flex items-center justify-center">
+                          {item.type}
+                        </div>
+                        <div className="flex items-center justify-center">
+                          {item.hours}
+                        </div>
+                        <div className="flex items-center">{item.remarks}</div>
+                      </React.Fragment>
+                    )
+                  )}
                 </div>
               </li>
             </ul>
