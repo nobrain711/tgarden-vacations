@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { Button, Menu, MenuItem, Typography, TextField, Box } from "@mui/material";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 export const VacationSidebarContent: React.FC = () => {
   // 状態変数を初期化します。
@@ -8,6 +11,8 @@ export const VacationSidebarContent: React.FC = () => {
   const [time, setTime] = useState<number>(8); // 時間
   const [headerText, setHeaderText] = useState<string>('休暇申請（全休）'); // // ヘッダーテキスト
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false); // 入力フィールドにフォーカスがあるかどうかを示すステータス変数です。
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null); // 選択された日付状態変数
+  const [openDatePicker, setOpenDatePicker] = useState<boolean>(false); //DatePickerアクセスするかどうかを管理する状態変数
 
   // 選択したオプションが変更されるたびに実行される効果
   useEffect(() => {
@@ -50,6 +55,25 @@ export const VacationSidebarContent: React.FC = () => {
     setIsInputFocused(false); // isInputFocused状態をfalseに設定し、入力フィールドからフォーカスが外れたことを示します。
   };
 
+  const handleDatePickerOpen = () => {
+    setOpenDatePicker(true);
+  };
+
+  const handleDatePickerClose = () => {
+    setOpenDatePicker(false);
+  };
+
+    // 今日の日取り計算
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // 今日の日付の時間を00:00:00に設定
+  
+    // DatePickerで使用する最小日付設定
+    const minDate = today;
+  
+    const handleDateChange = (date: Date | null) => {
+      setSelectedDate(date);
+    };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // 基本提出動作防止
     alert("페이지가 제출되었습니다!"); // ページ提出メッセージの表示または提出ロジックの追加
@@ -66,34 +90,31 @@ export const VacationSidebarContent: React.FC = () => {
       {/* 日付 入力 セクション */}
       <div className="p-48 -mt-32">
         <Typography variant="body1" className="text-base text-black font-bold">日付*</Typography>
-        <div className={`mt-2 flex items-center border ${isInputFocused ? 'border-blue-500' : 'border-gray-400'} rounded-md p-6 h-48`}>
-          {/* カレンダーアイコン */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg" // SVGネームスペース
-            viewBox="0 0 24 24" // SVGビューボックス設定
-            fill="none" // fill なし
-            stroke="currentColor" // 現在の色で線を描く
-            strokeWidth="2" // 線 厚さ 2
-            strokeLinecap="round" // 線の先を丸く処理
-            strokeLinejoin="round" // 線の連結部分を丸く処理
-            className="h-24 w-24 text-gray-400 ml-10 mr-3" // SVGアイコンのスタイルクラス
+        <div className={`mt-2 flex items-center border ${isInputFocused ? 'border-blue-500' : 'border-gray-400'} rounded-md p-8 h-48`} style={{ position: "relative" }}>
+          {/* 달력 아이콘 */}
+          <Box
+            sx={{
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+              zIndex: 1, // この値を設定して、アイコンが他の要素の上に表示されるようにする
+            }}
+            onClick={handleDatePickerOpen}
           >
-            {/* カレンダー形の長方形 */}
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            {/* カレンダーの上の縦線 */}
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            {/* カレンダー上の他の縦線 */}
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            {/* カレンダーの下の横線 */}
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          {/* 入力フィールド */}
-          <input
-            type="text" // テキスト入力タイプ
-            className="w-full outline-none px-4 py-8"
-            placeholder="" // プレースホルダーテキスト
-            onFocus={handleInputFocus} // 入力フィールドにフォーカスが入るとき（handle Input Focus 関数が呼び出されるとき）実行されます。
-            onBlur={handleInputBlur} // 入力フィールドからフォーカスが外れるとき（handle Input Blur関数が呼び出されるとき）実行されます。
+            <CalendarTodayIcon />
+          </Box>
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            minDate={minDate}
+            dateFormat="yyyy-MM-dd"
+            popperPlacement="bottom-start"
+            open={openDatePicker} // DatePickerの開き状態を設定
+            onClickOutside={handleDatePickerClose} // DatePicker外部クリック時に閉じるように設定
+            renderInput={() => null}
+            className="w-full pl-36" // 入力フィールドの左側の余白を与え、アイコンと重ならないようにする
           />
         </div>
         <Typography variant="body2" className="text-xs font-bold text-gray-500 mt-4">YYYY-MM-DD</Typography>
@@ -159,6 +180,7 @@ export const VacationSidebarContent: React.FC = () => {
         <Button
           type="submit" // ボタンがフォームを提出するように設定
           className="text-base bg-gray-200 text-gray-600 font-bold rounded-full w-full mx-44 -mt-16"
+          onClick={handleSubmit}
         >
           申請 {/* 「申請」テキスト */}
         </Button>
