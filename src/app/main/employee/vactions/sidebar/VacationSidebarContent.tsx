@@ -15,6 +15,8 @@ export const VacationSidebarContent: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null); // 選択された日付状態変数
   const [openDatePicker, setOpenDatePicker] = useState<boolean>(false); //DatePickerアクセスするかどうかを管理する状態変数
   const [dateInputValue, setDateInputValue] = useState<string>(""); // 日付入力値状態変数
+  const [isDateSelected, setIsDateSelected] = useState<boolean>(false); // 日付が選択されたかどうかを示す状態変数
+  const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false); // 区分が選択されたかを示す状態変数
 
   // 選択したオプションが変更されるたびに実行される効果
   useEffect(() => {
@@ -40,6 +42,24 @@ export const VacationSidebarContent: React.FC = () => {
       setIsSubmitEnabled(false);
     }
   }, [dateInputValue]);
+
+  // 日付入力値が変更されたときに実行
+  useEffect(() => {
+    if (dateInputValue.trim() !== "") {
+      setIsDateSelected(true);
+    } else {
+      setIsDateSelected(false);
+    }
+  }, [dateInputValue]);
+
+  // 区分選択値が変更されたときに実行
+  useEffect(() => {
+    if (selectedOption !== "") {
+      setIsOptionSelected(true);
+    } else {
+      setIsOptionSelected(false);
+    }
+  }, [selectedOption]);
 
   // クリックイベントハンドラ
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -237,9 +257,9 @@ export const VacationSidebarContent: React.FC = () => {
       <div className="flex justify-center">
         <Button
           type="submit" // ボタンがフォームを提出するように設定
-          className="text-base bg-gray-200 text-gray-600 font-bold rounded-full w-full mx-44 -mt-16"
+          className={`text-base ${isDateSelected && isOptionSelected ? 'bg-indigo-500 text-white' : 'bg-gray-200 text-gray-600'} font-bold rounded-full w-full mx-44 -mt-16`}
           onClick={handleSubmit}
-          disabled={!isSubmitEnabled}
+          disabled={!isDateSelected || !isOptionSelected} // 日付と区切りが選択されていないときにボタンを無効
         >
           申請 {/* 「申請」テキスト */}
         </Button>
