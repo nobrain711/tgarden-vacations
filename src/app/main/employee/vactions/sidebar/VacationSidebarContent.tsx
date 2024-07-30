@@ -257,9 +257,10 @@ export const VacationSidebarContent: React.FC = () => {
       <div className="flex justify-center">
         <Button
           type="submit" // ボタンがフォームを提出するように設定
-          className={`text-base ${isDateSelected && isOptionSelected ? 'bg-indigo-500 text-white' : 'bg-gray-200 text-gray-600'} font-bold rounded-full w-full mx-44 -mt-16`}
+          className={`text-base ${isDateSelected && isOptionSelected ? 'bg-indigo-500 hover:bg-indigo-600 text-white' : 'bg-gray-200 hover:bg-gray-400 text-gray-600'} font-bold rounded-full w-full mx-44 -mt-16`}
           onClick={handleSubmit}
           disabled={!isDateSelected || !isOptionSelected} // 日付と区切りが選択されていないときにボタンを無効
+          style={{ transition: 'background-color 0.3s, color 0.3s' }} // hover効果のためのtransition追加
         >
           申請 {/* 「申請」テキスト */}
         </Button>
