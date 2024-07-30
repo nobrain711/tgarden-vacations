@@ -13,6 +13,7 @@ export const VacationSidebarContent: React.FC = () => {
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false); // 入力フィールドにフォーカスがあるかどうかを示すステータス変数です。
   const [selectedDate, setSelectedDate] = useState<Date | null>(null); // 選択された日付状態変数
   const [openDatePicker, setOpenDatePicker] = useState<boolean>(false); //DatePickerアクセスするかどうかを管理する状態変数
+  const [dateInputValue, setDateInputValue] = useState<string>(""); // 日付入力値状態変数
 
   // 選択したオプションが変更されるたびに実行される効果
   useEffect(() => {
@@ -72,6 +73,16 @@ export const VacationSidebarContent: React.FC = () => {
   
     const handleDateChange = (date: Date | null) => {
       setSelectedDate(date);
+      if (date) {
+        const formattedDate = date.toLocaleDateString('en-GB'); // 目的の日付形式でフォーマットを指定
+        setDateInputValue(formattedDate); // 入力された値をステータス変数に設定
+      } else {
+        setDateInputValue(""); // 日付がnullの場合、状態変数を初期化
+      }
+    };
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setDateInputValue(event.target.value); // 入力された値をステータス変数に設定
     };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -79,6 +90,8 @@ export const VacationSidebarContent: React.FC = () => {
     alert("페이지가 제출되었습니다!"); // ページ提出メッセージの表示または提出ロジックの追加
     // 追加でページ切り替えなどの動作が可能
   };
+
+  const inputBorderStyle = dateInputValue ? 'border-blue-500' : 'border-red-500'; // 日付入力欄のスタイルを条件付きに設定するためのCSSクラス
 
   return (
     <div style={{ width: '480px' }}>
@@ -90,8 +103,8 @@ export const VacationSidebarContent: React.FC = () => {
       {/* 日付 入力 セクション */}
       <div className="p-48 -mt-32">
         <Typography variant="body1" className="text-base text-black font-bold">日付*</Typography>
-        <div className={`mt-2 flex items-center border ${isInputFocused ? 'border-blue-500' : 'border-gray-400'} rounded-md p-8 h-48`} style={{ position: "relative" }}>
-          {/* 달력 아이콘 */}
+        <div className={`mt-2 flex items-center border ${dateInputValue ? 'border-blue-500' : 'border-red-500'} rounded-md p-8 h-48`} style={{ position: "relative" }}>
+          {/* カレンダーアイコン */}
           <Box
             sx={{
               position: 'absolute',
