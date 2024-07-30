@@ -1,165 +1,249 @@
-import Button from "@mui/material/Button";
-// tailwind의 경우에는 style에 정의 하는게 아니라 className에 정의 하면 됩니다.
-export function VacationSidebarContent() {
+import React, { useState, useEffect } from "react";
+import { Button, Menu, MenuItem, Typography, TextField, Box } from "@mui/material";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+
+export const VacationSidebarContent: React.FC = () => {
+  // 状態変数を初期化します。
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // メニューのアンカーエレメント
+  const [selectedOption, setSelectedOption] =
+    useState<string>("有給休暇（全休）"); // 選択されたオプション
+  const [time, setTime] = useState<number>(8); // 時間
+  const [headerText, setHeaderText] = useState<string>("休暇申請（全休）"); // // ヘッダーテキスト
+  const [isInputFocused, setIsInputFocused] = useState<boolean>(false); // 入力フィールドにフォーカスがあるかどうかを示すステータス変数です。
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null); // 選択された日付状態変数
+  const [openDatePicker, setOpenDatePicker] = useState<boolean>(false); //DatePickerアクセスするかどうかを管理する状態変数
+  const [dateInputValue, setDateInputValue] = useState<string>(""); // 日付入力値状態変数
+
+  // 選択したオプションが変更されるたびに実行される効果
+  useEffect(() => {
+    if (selectedOption === "有給休暇（全休）") {
+      setTime(8); // 時間を8時間に設定
+      setHeaderText("休暇申請（全休）"); // ヘッダーテキスト設定
+    } else if (selectedOption === "有給休暇（半休）") {
+      setTime(4); // 時間を4時間に設定
+      setHeaderText("休暇申請（半休）"); // ヘッダーテキスト設定
+    } else if (selectedOption === "本社出勤") {
+      setTime(8); // 時間を8時間に設定
+      setHeaderText("本社出社申請"); // ヘッダーテキスト設定
+    }
+  }, [selectedOption]);
+
+  // 日付入力値が変更されたときに申請ボタンが有効になっているか確認
+  useEffect(() => {
+    if (dateInputValue.trim() !== "") {
+      // 日付入力値がある場合にボタンを有効
+      setIsSubmitEnabled(true);
+    } else {
+      // 日付入力値が空の場合はボタンを無効
+      setIsSubmitEnabled(false);
+    }
+  }, [dateInputValue]);
+
+  // クリックイベントハンドラ
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget); // アンカーエレメントをクリックした要素に設定
+    setIsClicked(true); // クリックするとステータス変数を変更
+  };
+
+  // メニューを閉じる関数
+  const handleClose = () => {
+    setAnchorEl(null); // アンカーエレメントをnullに設定してメニューを閉じる
+  };
+
+  // オプションを選択するときに実行される関数
+  const handleOptionSelect = (option: string) => {
+    setSelectedOption(option); // 選択したオプションを設定
+    handleClose(); // メニューを閉じる
+  };
+
+  // 入力フィールドにフォーカスが入るときに実行される関数です。
+  const handleInputFocus = () => {
+    setIsInputFocused(true); // isInputFocused状態をtrueに設定し、入力フィールドにフォーカスが入ったことを示します。
+  };
+
+  // 入力フィールドからフォーカスが外れたときに実行される関数です。
+  const handleInputBlur = () => {
+    setIsInputFocused(false); // isInputFocused状態をfalseに設定し、入力フィールドからフォーカスが外れたことを示します。
+  };
+
+  const handleDatePickerOpen = () => {
+    setOpenDatePicker(true);
+  };
+
+  const handleDatePickerClose = () => {
+    setOpenDatePicker(false);
+  };
+
+  // 今日の日取り計算
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // 今日の日付の時間を00:00:00に設定
+
+  // DatePickerで使用する最小日付設定
+  const minDate = today;
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    if (date) {
+      const formattedDate = date.toLocaleDateString("en-GB"); // 目的の日付形式でフォーマットを指定
+      setDateInputValue(formattedDate); // 入力された値をステータス変数に設定
+    } else {
+      setDateInputValue(""); // 日付がnullの場合、状態変数を初期化
+    }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDateInputValue(event.target.value); // 入力された値をステータス変数に設定
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // 基本提出動作防止
+    alert("페이지가 제출되었습니다!"); // ページ提出メッセージの表示または提出ロジックの追加
+    // 追加でページ切り替えなどの動作が可能
+  };
+
+  const inputBorderStyle = dateInputValue
+    ? "border-blue-500"
+    : "border-red-500"; // 日付入力欄のスタイルを条件付きに設定するためのCSSクラス
+
+  // 申請ボタンを有効にするかどうかを管理する状態変数
+  const [isSubmitEnabled, setIsSubmitEnabled] = useState<boolean>(false);
+
   return (
-    <>
-      <div style={{ marginTop: "0px" }}>
-        {/* <div style={{ backgroundColor: '#6B66FF', padding: '50px', marginBottom: '50px' }}>
-        <h2 style={{ fontSize: '40px', color: '#FFFFFF', fontWeight: 'bold' }}>休暇申請（全休）</h2>
-    </div> */}
+    <div style={{ width: "480px" }}>
+      {/* ヘッダーセクション */}
+      <div
+        className={`bg-indigo-500 p-16 mb-16 text-center py-68 ${headerText === "本社出社申請" ? "bg-gray-900" : ""}`}
+      >
+        <Typography variant="h2" className="text-6xl text-white font-bold">
+          {headerText}
+        </Typography>
+      </div>
 
-        <div className="bg-indigo-500 p-16 mb-16 text-center py-16">
-          <h2 className="text-4xl text-white font-bold">休暇申請（全休）</h2>
-        </div>
-
-        {/* <div style={{ padding: '50px', marginTop: '-70px' }}>
-        <p style={{ fontSize: '16px', color: '#333', fontWeight: 'bold' }}>日付*</p>
-    </div> */}
-
-        <div className="p-10 -mt-70">
-          <p className="text-base text-gray-700 font-bold">日付*</p>
-          <div className="mt-2 flex items-center border border-gray-300 rounded-md p-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-16 w-16 text-gray-400 ml-10 mr-3"
-            >
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-            <input
-              type="text"
-              className="w-full outline-none px-4 py-2"
-              placeholder=""
-            />
-          </div>
-          <p className="text-xs font-bold text-gray-500 mt-2">YYYY-MM-DD</p>
-        </div>
-
-        {/* <div style={{ padding: '50px' }}>
-        <p style={{ fontSize: '16px', color: '#333', fontWeight: 'bold' }}>区分*</p>
-    </div> */}
-
-        <div className="p-10">
-          <p className="text-base text-gray-700 font-bold">区分*</p>
-          <div
-            className="border border-gray-300 p-4 mt-4 h-32 rounded-md"
-            id="selectionBox"
-          >
-            <span class="pl-6">有給休暇（全休）</span>
-          </div>
-        </div>
-
-        {/* <div style={{ padding: '50px' }}>
-        <p style={{ fontSize: '16px', color: '#333', fontWeight: 'bold' }}>時間</p>
-    </div> */}
-
-        <div className="p-10">
-          <p className="text-base text-gray-700 font-bold">時間</p>
-          <p className="ml-6">8</p>
-        </div>
-
-        {/* <div style={{ padding: '20px 50px' }}>
-        <p style={{ fontSize: '16px', color: '#333', fontWeight: 'bold' }}>休暇事由 / 備考</p>
-        <textarea
-            style={{
-                width: '100%',
-                minHeight: '75px',
-                padding: '10px',
-                fontSize: '14px',
-                border: '1px solid #D5D5D5',
-                borderRadius: '5px'
+      {/* 日付 入力 セクション */}
+      <div className="p-48 -mt-32">
+        <Typography variant="body1" className="text-base text-black font-bold">
+          日付*
+        </Typography>
+        <div
+          className={`mt-2 flex items-center border ${dateInputValue ? "border-blue-500" : "border-red-500"} rounded-md p-8 h-48`}
+          style={{ position: "relative" }}
+        >
+          {/* カレンダーアイコン */}
+          <Box
+            sx={{
+              position: "absolute",
+              left: "12px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              cursor: "pointer",
+              zIndex: 1, // この値を設定して、アイコンが他の要素の上に表示されるようにする
             }}
-            placeholder=""
-        />
-    </div> */}
-
-        <div className="p-6 md:p-10 mb-6">
-          <p className="text-base text-gray-700 font-bold">休暇事由 / 備考</p>
-          <textarea
-            className="w-full min-h-20 px-4 py-2 text-sm border border-gray-300 rounded"
-            placeholder=""
+            onClick={handleDatePickerOpen}
+          >
+            <CalendarTodayIcon />
+          </Box>
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            minDate={minDate}
+            dateFormat="yyyy-MM-dd"
+            popperPlacement="bottom-start"
+            open={openDatePicker} // DatePickerの開き状態を設定
+            onClickOutside={handleDatePickerClose} // DatePicker外部クリック時に閉じるように設定
+            renderInput={() => null}
+            className="w-full pl-36" // 入力フィールドの左側の余白を与え、アイコンと重ならないようにする
           />
         </div>
-
-        {/* <button
-        style={{
-            fontSize: '14px',
-            padding: '10px 150px',
-            margin: '10px 50px',
-            backgroundColor: '#EAEAEA',
-            color: '#A6A6A6',
-            fontWeight: 'bold',
-            border: 'none',
-            borderRadius: '20px'
-        }}
-        onClick={() => alert('Button clicked!')}
-    >
-        申請
-    </button> */}
-
-        <div className="flex justify-center">
-          <Button
-            className="text-base px-10 py-2 mt-4 mb-2 bg-gray-200 text-gray-600 font-bold rounded-full w-full mx-10"
-            onClick={() => alert("Button clicked!")}
-          >
-            申請
-          </Button>
-        </div>
+        <Typography
+          variant="body2"
+          className="text-xs font-bold text-gray-500 mt-4"
+        >
+          YYYY-MM-DD
+        </Typography>
       </div>
-      <div style={{ padding: "50px", marginTop: "-70px" }}>
-        <p style={{ fontSize: "16px", color: "#333", fontWeight: "bold" }}>
-          日付*
-        </p>
-      </div>
-      <div style={{ padding: "50px" }}>
-        <p style={{ fontSize: "16px", color: "#333", fontWeight: "bold" }}>
+
+      {/* 区分選択セクション */}
+      <div className="p-48 -mt-60">
+        <Typography variant="body1" className="text-base text-black font-bold">
           区分*
-        </p>
-      </div>
-      <div style={{ padding: "50px" }}>
-        <p style={{ fontSize: "16px", color: "#333", fontWeight: "bold" }}>
-          時間
-        </p>
-      </div>
-      <div style={{ padding: "20px 50px" }}>
-        <p style={{ fontSize: "16px", color: "#333", fontWeight: "bold" }}>
-          休暇事由 / 備考
-        </p>
-        <textarea
-          style={{
-            width: "100%",
-            minHeight: "75px",
-            padding: "10px",
-            fontSize: "14px",
-            border: "1px solid #D5D5D5",
-            borderRadius: "5px",
+        </Typography>
+        <div
+          className="border border-gray-400 p-8 mt-6 h-48 rounded-md flex items-center" // 枠とスタイリング設定
+          id="selectionBox" // 選択ボックスのID
+          onClick={handleClick} // クリックするとhandleClick関数呼び出し
+          style={{ cursor: "pointer" }} // マウス カーソルをポインタに変更してクリック可能性を示す
+        >
+          <Typography variant="body1" className="font-medium pl-6">
+            {selectedOption}
+          </Typography>
+        </div>
+        {/* オプションメニュー */}
+        <Menu
+          anchorEl={anchorEl} // メニューが開く目安となるエレメント
+          open={Boolean(anchorEl)} // メニューが開いた状態かどうかをBoolean値に設定
+          onClose={handleClose} // メニューを閉じるときに呼び出される関数
+          anchorOrigin={{
+            // メニューの基準位置設定
+            vertical: "bottom", // 縦方向位置: 下の方
+            horizontal: "left", // 横方向位置:左
           }}
-          placeholder=""
+          transformOrigin={{
+            // メニューが表示される位置設定
+            vertical: "top", // 縦方向位置: 上
+            horizontal: "left", // 横方向位置:左
+          }}
+        >
+          <MenuItem onClick={() => handleOptionSelect("有給休暇（全休）")}>
+            {/* 全有給休暇選択 */}
+            有給休暇（全休）
+          </MenuItem>
+          <MenuItem onClick={() => handleOptionSelect("有給休暇（半休）")}>
+            {/* 反日有給休暇選択 */}
+            有給休暇（半休）
+          </MenuItem>
+          <MenuItem onClick={() => handleOptionSelect("本社出勤")}>
+            {/* 本社出勤選択 */}
+            本社出勤
+          </MenuItem>
+        </Menu>
+      </div>
+
+      {/* 時間表示セクション */}
+      <div className="p-48 -mt-60">
+        <Typography variant="body1" className="text-base text-black font-bold">
+          時間
+        </Typography>{" "}
+        {/* 時間 */}
+        <Typography variant="body1" className="ml-6">
+          {time}
+        </Typography>{" "}
+        {/* 実時間値出力 */}
+      </div>
+
+      {/* 休暇理由入力セクション */}
+      <div className="p-48 -mt-60">
+        <Typography variant="body1" className="text-base text-black font-bold">
+          休暇事由 / 備考
+        </Typography>
+        <textarea
+          className="w-full min-h-52 px-4 py-16 text-sm border border-gray-400 rounded"
+          placeholder="" // プレースホルダーテキスト
         />
       </div>
-      <button
-        style={{
-          fontSize: "14px",
-          padding: "10px 150px",
-          margin: "10px 50px",
-          backgroundColor: "#EAEAEA",
-          color: "#A6A6A6",
-          fontWeight: "bold",
-          border: "none",
-          borderRadius: "20px",
-        }}
-        onClick={() => alert("Button clicked!")}
-      >
-        申請
-      </button>
-    </>
+
+      {/* 申し込みボタン */}
+      <div className="flex justify-center">
+        <Button
+          type="submit" // ボタンがフォームを提出するように設定
+          className="text-base bg-gray-200 text-gray-600 font-bold rounded-full w-full mx-44 -mt-16"
+          onClick={handleSubmit}
+          disabled={!isSubmitEnabled}
+        >
+          申請 {/* 「申請」テキスト */}
+        </Button>
+      </div>
+    </div>
   );
-}
+};
