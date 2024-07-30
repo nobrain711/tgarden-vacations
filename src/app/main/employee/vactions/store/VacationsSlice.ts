@@ -1,6 +1,5 @@
 import { createSlice, WithSlice } from "@reduxjs/toolkit"
 import { rootReducer } from "app/store/lazyLoadedSlices"
-import Vacations from "../Vacations"
 
 const initialState = {
   total: 27.0,
